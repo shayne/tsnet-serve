@@ -17,7 +17,7 @@ go run ./main.go -hostname myapp -backend https://localhost:3000
 ## Docker container
 ```shell
 docker run -d \
-    --name=tsnet-serve
+    --name=tsnet-serve \
     -v /path/to/state:/state \
     -e TSNS_HOSTNAME=<hostname> \
     -e TSNS_BACKEND=<backend> \
