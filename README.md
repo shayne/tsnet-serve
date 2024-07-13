@@ -1,4 +1,5 @@
 # tsnet-serve
+
 It's like `tailscale serve` but a standalone app that lives on your tailnet. 
 
 A tsnet app that runs a lightweight reverse proxy on your tailnet. Simply specify
@@ -8,6 +9,7 @@ runs the same reverse proxy as `tailscale serve`. Just open a web browser and po
 it to `https://machine.your-tcd.ts.net`.
 
 ## Build and run
+
 To build from source and run:
 
 ```shell
@@ -15,6 +17,7 @@ go run ./main.go -hostname myapp -backend https://localhost:3000
 ```
 
 ## Docker container
+
 ```shell
 docker run -d \
     --name=tsnet-serve \
@@ -25,13 +28,14 @@ docker run -d \
     ghcr.io/shayne/tsnet-serve:latest
 ```
 
-Initial registration requires an [auth key](https://tailscale.com/kb/1085/auth-keys/) to be set via the `TS_AUTHKEY` env var. 
-
+Initial registration requires an [auth key](https://tailscale.com/kb/1085/auth-keys/)
+to be set via the `TS_AUTHKEY` env var.
 
 ## Contributing
 
-Contributions to this project are welcome. Please feel free to open an issue or submit a pull request if you have any improvements or bug fixes to suggest.
-
+Contributions to this project are welcome.
+Please feel free to open an issue or submit a pull request
+if you have any improvements or bug fixes to suggest.
 
 ## License
 
