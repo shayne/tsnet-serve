@@ -1,19 +1,26 @@
 # tsnet-serve
 
-It's like `tailscale serve` but a standalone app that lives on your tailnet. 
+It's like `tailscale serve` but a standalone app that lives on your tailnet.
 
-A tsnet app that runs a lightweight reverse proxy on your tailnet. Simply specify
-a hostname, backend and provide an auth key. The app will appear on your tailnet
-as a machine. Tailscale provides all connectivity, the TLS cert and
-runs the same reverse proxy as `tailscale serve`. Just open a web browser and point
-it to `https://machine.your-tcd.ts.net`.
+A tsnet app that runs a lightweight reverse proxy on your tailnet.
+Give it a hostname, backend, and provide an auth key.
+The app will appear on your tailnet as a machine.
+
+Tailscale provides connectivity, a TLS cert, and
+runs the same reverse proxy as `tailscale serve`.
+
+Open a web browser and point it to `https://machine.your-tcd.ts.net`.
 
 ## Build and run
 
 To build from source and run:
 
 ```shell
+# Run a binary
 go run ./main.go -hostname myapp -backend https://localhost:3000
+
+# Run a container image
+docker run $(ko build --local .)
 ```
 
 ## Docker container
@@ -29,7 +36,7 @@ docker run -d \
 ```
 
 Initial registration requires an [auth key](https://tailscale.com/kb/1085/auth-keys/)
-to be set via the `TS_AUTHKEY` env var.
+set as the `TS_AUTHKEY` env var.
 
 ## Contributing
 
@@ -39,4 +46,4 @@ if you have any improvements or bug fixes to suggest.
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+Licensed under the [MIT License](LICENSE).
