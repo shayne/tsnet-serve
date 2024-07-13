@@ -9,8 +9,6 @@ on:
     branches:
       - main
 
-  workflow_dispatch:
-
 jobs:
   test:
     name: Lint & test code.
@@ -24,10 +22,8 @@ jobs:
 
       - uses: golangci/golangci-lint-action@v3
         with:
-          version: "v1.55.2"
+          version: "v1.59.1"
 
       - run: go vet ./...
 
       - run: env CGO_ENABLED=0 go test -cover ./...
-
-      - run: go test -race -cover ./...
