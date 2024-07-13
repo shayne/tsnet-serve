@@ -11,6 +11,9 @@ runs the same reverse proxy as `tailscale serve`.
 
 Open a web browser and point it to `https://machine.your-tcd.ts.net`.
 
+Expose your service to the internet via [Tailscale Funnel](https://tailscale.com/kb/1223/funnel/)
+using the `-funnel` flag.
+
 ## Build and run
 
 To build from source and run:
@@ -31,6 +34,7 @@ docker run -d \
     -v /path/to/state:/state \
     -e TSNS_HOSTNAME=<hostname> \
     -e TSNS_BACKEND=<backend> \
+    -e TSNS_FUNNEL=true \ # optional, enables Tailscale Funnel
     -e TS_AUTHKEY=<auth key> \
     ghcr.io/shayne/tsnet-serve:latest
 ```
