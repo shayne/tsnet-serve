@@ -67,8 +67,7 @@ func main() {
 		log.Fatalf("invalid backend: %v", err)
 	}
 
-	err = os.MkdirAll(*stateDir, 0755)
-	if err != nil {
+	if err := os.MkdirAll(*stateDir, 0755); err != nil {
 		log.Fatalf("failed to create state directory: %v", err)
 	}
 
@@ -90,6 +89,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to get local client: %v", err)
 	}
+
 	ctx := context.Background()
 	st, err := s.Up(ctx)
 	if err != nil {
@@ -114,9 +114,9 @@ func main() {
 			},
 		},
 	}
+
 	// This kicks off the server.
-	err = lc.SetServeConfig(ctx, srvConfig)
-	if err != nil {
+	if err := lc.SetServeConfig(ctx, srvConfig); err != nil {
 		log.Fatalf("failed to set serve config: %v", err)
 	}
 
