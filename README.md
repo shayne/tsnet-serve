@@ -14,13 +14,22 @@ Open a web browser and point it to `https://machine.your-tcd.ts.net`.
 Expose your service to the internet via [Tailscale Funnel](https://tailscale.com/kb/1223/funnel/)
 using the `-funnel` flag.
 
+## Releases
+
+[![Release](https://github.com/shayne/tsnet-serve/actions/workflows/release.yml/badge.svg)](https://github.com/shayne/tsnet-serve/actions/workflows/release.yml)
+
+Pre-built binaries are available on the [releases page](https://github.com/shayne/tsnet-serve/releases).
+
+Container images are available on [GitHub Container Registry](https://ghcr.io/shayne/tsnet-serve)
+at `ghcr.io/shayne/tsnet-serve`.
+
 ## Build and run
 
 To build from source and run:
 
 ```shell
 # Run a binary
-go run ./main.go -hostname myapp -backend https://localhost:3000
+go run . -hostname myapp -backend https://localhost:3000
 
 # Run a container image
 docker run $(ko build --local .)
