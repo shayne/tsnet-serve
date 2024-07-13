@@ -1,3 +1,9 @@
+// Package main serves HTTP traffic over Tailscale.
+//
+// Set the $VERSION environment variable and run `go generate`
+// to update the embedded version.
+//
+//go:generate sh -c "printf 'package main\n\nconst Version = `%s`\n' $VERSION > version.go"
 package main
 
 import (
@@ -9,6 +15,7 @@ import (
 	"net/http/httputil"
 	"net/url"
 	"os"
+	"runtime/debug"
 	"strconv"
 	"strings"
 
@@ -23,10 +30,26 @@ var (
 	funnel     = flag.Bool("funnel", false, "enable funnel mode")
 	mountPath  = flag.String("mount-path", "/", "path to mount proxy on")
 	stateDir   = flag.String("state-dir", "/state", "directory to store state in")
+	version    = flag.Bool("version", false, "print version and exit")
 )
 
 func main() {
 	flag.Parse()
+
+	if *version {
+		rev := "unknown"
+		if bi, ok := debug.ReadBuildInfo(); ok {
+			for _, s := range bi.Settings {
+				if s.Key == "vcs.revision" {
+					rev = s.Value
+					break
+				}
+			}
+		}
+
+		fmt.Printf("%s %s(%s)\n", os.Args[0], Version, rev)
+		return
+	}
 
 	if os.Getenv("TSNS_HOSTNAME") != "" {
 		*hostname = os.Getenv("TSNS_HOSTNAME")

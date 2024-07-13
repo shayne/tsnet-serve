@@ -20,7 +20,7 @@ To build from source and run:
 
 ```shell
 # Run a binary
-go run ./main.go -hostname myapp -backend https://localhost:3000
+go run . -hostname myapp -backend https://localhost:3000
 
 # Run a container image
 docker run $(ko build --local .)

@@ -29,18 +29,22 @@ jobs:
         env:
           VERSION: ${{ github.ref_name }}
           TAGS: ${{ github.ref_name }},${{ github.sha }},latest
+        shell: bash
         run: |
-          go build
+          ./build.sh "$VERSION"
+
           export KO_DOCKER_REPO="ghcr.io/${GITHUB_REPOSITORY@L}"
           ko build --bare --platform=all --tags=$TAGS
 
       - uses: actions/upload-artifact@v3
         with:
           name: tsnet-serve
-          path: tsnet-serve
+          path: |
+            bin/*
 
       - uses: softprops/action-gh-release@v1
         with:
           append_body: true
           generate_release_notes: true
-          files: tsnet-serve
+          files: |
+            bin/*
