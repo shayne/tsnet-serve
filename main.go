@@ -47,7 +47,7 @@ func main() {
 			}
 		}
 
-		fmt.Printf("%s %s(%s)\n", os.Args[0], Version, rev)
+		fmt.Printf("%s %s (%s)\n", os.Args[0], Version, rev)
 		return
 	}
 
