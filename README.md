@@ -43,7 +43,11 @@ docker run -d \
     -v /path/to/state:/state \
     -e TSNS_HOSTNAME=<hostname> \
     -e TSNS_BACKEND=<backend> \
-    -e TSNS_FUNNEL=true \ # optional, enables Tailscale Funnel
+    # optional, enables Tailscale Funnel
+    # -e TSNS_FUNNEL=true \
+    # optional, set to your control URL
+    # leave empty for default
+    # -e TS_CONTROL_URL=https://your.tailscale.com \
     -e TS_AUTHKEY=<auth key> \
     ghcr.io/shayne/tsnet-serve:latest
 ```

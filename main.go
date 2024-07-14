@@ -30,6 +30,7 @@ var (
 	funnel     = flag.Bool("funnel", false, "enable funnel mode")
 	mountPath  = flag.String("mount-path", "/", "path to mount proxy on")
 	stateDir   = flag.String("state-dir", "/state", "directory to store state in")
+	controlURL = flag.String("control-url", "", "control URL to use, leave empty for default")
 	version    = flag.Bool("version", false, "print version and exit")
 )
 
@@ -51,36 +52,18 @@ func main() {
 		return
 	}
 
-	if os.Getenv("TSNS_HOSTNAME") != "" {
-		*hostname = os.Getenv("TSNS_HOSTNAME")
+	if h := os.Getenv("TSNS_HOSTNAME"); h != "" {
+		*hostname = h
 	}
-
-	if os.Getenv("TSNS_BACKEND") != "" {
-		*backend = os.Getenv("TSNS_BACKEND")
-	}
-
-	if os.Getenv("TSNS_LISTEN_PORT") != "" {
-		p, err := strconv.Atoi(os.Getenv("TSNS_LISTEN_PORT"))
-		if err != nil {
-			log.Fatalf("invalid TSNS_LISTEN_PORT: %v", err)
-		}
-		*listenPort = p
-	}
-
-	if os.Getenv("TSNS_MOUNT_PATH") != "" {
-		*mountPath = os.Getenv("TSNS_MOUNT_PATH")
-	}
-
-	if os.Getenv("TSNS_STATE_DIR") != "" {
-		*stateDir = os.Getenv("TSNS_STATE_DIR")
-	}
-
 	if *hostname == "" {
 		log.Fatal("hostname is required")
 	}
 
-	if *listenPort < 1 || *listenPort > 65535 {
-		log.Fatal("invalid port")
+	if b := os.Getenv("TSNS_BACKEND"); b != "" {
+		*backend = b
+	}
+	if *backend == "" {
+		log.Fatal("backend is required")
 	}
 
 	if fn := os.Getenv("TSNS_FUNNEL"); fn != "" {
@@ -91,16 +74,30 @@ func main() {
 		*funnel = ok
 	}
 
+	if p := os.Getenv("TSNS_LISTEN_PORT"); p != "" {
+		pr, err := strconv.Atoi(p)
+		if err != nil {
+			log.Fatalf("invalid TSNS_LISTEN_PORT: %v", err)
+		}
+		*listenPort = pr
+	}
+	if *listenPort < 1 || *listenPort > 65535 {
+		log.Fatal("invalid port")
+	}
 	if *funnel && *listenPort != 443 && *listenPort != 8443 && *listenPort != 10000 {
 		log.Fatal("funnel mode is only available on port 443, 8443, or 10000")
 	}
 	portStr := strconv.Itoa(*listenPort)
 
-	if *backend == "" {
-		log.Fatal("backend is required")
+	if p := os.Getenv("TSNS_MOUNT_PATH"); p != "" {
+		*mountPath = p
 	}
 
-	proxyTarget, err := expandProxyTarget(*backend)
+	if d := os.Getenv("TSNS_STATE_DIR"); d != "" {
+		*stateDir = d
+	}
+
+	proxyTarget, err := validateProxyTarget(*backend)
 	if err != nil {
 		log.Fatalf("invalid backend: %v", err)
 	}
@@ -117,9 +114,14 @@ func main() {
 		log.Fatalf("state directory is not writable")
 	}
 
+	if u := os.Getenv("TS_CONTROL_URL"); u != "" {
+		*controlURL = u
+	}
+
 	s := &tsnet.Server{
-		Hostname: *hostname,
-		Dir:      *stateDir,
+		Hostname:   *hostname,
+		Dir:        *stateDir,
+		ControlURL: *controlURL,
 	}
 	defer s.Close()
 
@@ -196,7 +198,7 @@ func startServer(ctx context.Context, s *tsnet.Server, portStr, proxyTarget stri
 	return lc.SetServeConfig(ctx, srvConfig)
 }
 
-func expandProxyTarget(source string) (*url.URL, error) {
+func validateProxyTarget(source string) (*url.URL, error) {
 	if !strings.Contains(source, "://") {
 		source = "http://" + source
 	}
