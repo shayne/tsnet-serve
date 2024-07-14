@@ -27,7 +27,7 @@ jobs:
         with:
           go-version-file: go.mod
 
-      - uses: ko-build/setup-ko@v0.6
+      - uses: ko-build/setup-ko@v0.7
 
       - name: Build
         env:
@@ -40,13 +40,13 @@ jobs:
           export KO_DOCKER_REPO="ghcr.io/${GITHUB_REPOSITORY@L}"
           ko build --bare --platform=all --tags=$TAGS
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: tsnet-serve
           path: |
             bin/*
 
-      - uses: softprops/action-gh-release@v1
+      - uses: softprops/action-gh-release@v2
         with:
           append_body: true
           generate_release_notes: true
