@@ -1,2 +1,4 @@
 .envrc
 bin
+/tsnet-serve
+/state
