@@ -25,7 +25,7 @@ import (
 
 var (
 	hostname   = flag.String("hostname", "", "hostname to use")
-	backend    = flag.String("backend", "", "target URL to proxy to")
+	backend    = flag.String("backend", "8080", "target URL to proxy to")
 	listenPort = flag.Int("listen-port", 443, "port to listen on")
 	funnel     = flag.Bool("funnel", false, "enable funnel mode")
 	mountPath  = flag.String("mount-path", "/", "path to mount proxy on")
@@ -97,7 +97,7 @@ func main() {
 		*stateDir = d
 	}
 
-	proxyTarget, err := validateProxyTarget(*backend)
+	proxyTarget, err := expandProxyTarget(*backend)
 	if err != nil {
 		log.Fatalf("invalid backend: %v", err)
 	}
@@ -151,6 +151,15 @@ func startFunnel(s *tsnet.Server, portStr string, proxyTarget *url.URL) error {
 	// reverse proxy path work correctly.
 	*mountPath = strings.TrimSuffix(*mountPath, "/")
 
+	var transport http.RoundTripper
+	if proxyTarget.Scheme == "https+insecure" {
+		proxyTarget.Scheme = "https"
+
+		tsport := http.DefaultTransport.(*http.Transport).Clone()
+		tsport.TLSClientConfig.InsecureSkipVerify = true
+		transport = tsport
+	}
+
 	proxy := httputil.ReverseProxy{
 		Rewrite: func(r *httputil.ProxyRequest) {
 			r.SetURL(proxyTarget)
@@ -158,6 +167,7 @@ func startFunnel(s *tsnet.Server, portStr string, proxyTarget *url.URL) error {
 			// Strip the mount path from the Out URL.
 			r.Out.URL.Path = r.In.URL.Path[len(*mountPath):]
 		},
+		Transport: transport,
 	}
 
 	return http.Serve(ln, &proxy)
@@ -198,14 +208,24 @@ func startServer(ctx context.Context, s *tsnet.Server, portStr, proxyTarget stri
 	return lc.SetServeConfig(ctx, srvConfig)
 }
 
-func validateProxyTarget(source string) (*url.URL, error) {
-	if !strings.Contains(source, "://") {
+// expandProxyTarget returns a url from s, where s can be of the form:
+//
+// port number: "1234" -> "http://127.0.0.1:1234"
+// host:port "example.com:1234" -> "http://example.com:1234"
+// full URL "http://example.com:1234" -> "http://example.com:1234"
+// insecure TLS "https+insecure://example.com:1234" -> "https+insecure://example.com:1234"
+func expandProxyTarget(source string) (*url.URL, error) {
+	if allNumeric(source) {
+		source = "http://127.0.0.1:" + source
+	} else if !strings.Contains(source, "://") {
 		source = "http://" + source
 	}
+
 	u, err := url.ParseRequestURI(source)
 	if err != nil {
-		return nil, fmt.Errorf("parsing url: %w", err)
+		return nil, fmt.Errorf("error parsing url: %w", err)
 	}
+
 	switch u.Scheme {
 	case "http", "https", "https+insecure":
 		// ok
@@ -214,4 +234,13 @@ func validateProxyTarget(source string) (*url.URL, error) {
 	}
 
 	return u, nil
+}
+
+func allNumeric(s string) bool {
+	for i := range len(s) {
+		if s[i] < '0' || s[i] > '9' {
+			return false
+		}
+	}
+	return s != ""
 }
