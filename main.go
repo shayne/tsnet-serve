@@ -33,7 +33,7 @@ func main() {
 	flag.Parse()
 
 	if *version {
-		ver := "(unknown)"
+		ver := "(devel)"
 		if info, ok := debug.ReadBuildInfo(); ok {
 			ver = info.Main.Version
 		}

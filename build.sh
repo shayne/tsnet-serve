@@ -8,7 +8,7 @@ set -euo pipefail
 
 app="$(basename "$PWD")"
 
-VERSION="${VERSION:-(devel)}"
+VERSION="${VERSION:-devel}"
 
 rm -rf bin
 mkdir -p bin
