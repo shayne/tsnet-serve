@@ -1,5 +1,7 @@
 # tsnet-serve
 
+[![CI](https://github.com/shayne/tsnet-serve/actions/workflows/ci.yml/badge.svg)](https://github.com/shayne/tsnet-serve/actions/workflows/ci.yml)
+
 It's like `tailscale serve` but a standalone app that lives on your tailnet.
 
 A tsnet app that runs a lightweight reverse proxy on your tailnet.
