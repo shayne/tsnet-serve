@@ -50,6 +50,7 @@ func main() {
 	}
 
 	if b := os.Getenv("TSNS_BACKEND"); b != "" {
+
 		*backend = b
 	}
 	if *backend == "" {
