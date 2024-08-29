@@ -39,8 +39,7 @@ changelog:
       - "^test:"
 
 kos:
-  - repository: ghcr.io/shayne/tsnet-serve
-    tags:
+  - tags:
       - "{{.Version}}"
       - latest
     bare: true
