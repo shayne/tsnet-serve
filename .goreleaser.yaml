@@ -30,6 +30,9 @@ archives:
         format: tar.zst
       - goos: windows
         format: zip
+    files:
+      - LICENSE
+      - README.md
 
 changelog:
   sort: asc
