@@ -1,8 +1,10 @@
 module github.com/shayne/tsnet-serve
 
-go 1.23.0
+go 1.23
 
-require tailscale.com v1.72.0
+toolchain go1.23.0
+
+require tailscale.com v1.72.1
 
 require (
 	filippo.io/edwards25519 v1.1.0 // indirect

@@ -10,7 +10,6 @@ import (
 	"net/http/httputil"
 	"net/url"
 	"os"
-	"runtime/debug"
 	"strconv"
 	"strings"
 
@@ -19,26 +18,23 @@ import (
 )
 
 var (
-	hostname   = flag.String("hostname", "", "hostname to use")
-	backend    = flag.String("backend", "8080", "target URL to proxy to")
-	listenPort = flag.Int("listen-port", 443, "port to listen on")
-	funnel     = flag.Bool("funnel", false, "enable funnel mode")
-	mountPath  = flag.String("mount-path", "/", "path to mount proxy on")
-	stateDir   = flag.String("state-dir", "/state", "directory to store state in")
-	controlURL = flag.String("control-url", "", "control URL to use, leave empty for default")
-	version    = flag.Bool("version", false, "print version and exit")
+	hostname     = flag.String("hostname", "", "hostname to use")
+	backend      = flag.String("backend", "8080", "target URL to proxy to")
+	listenPort   = flag.Int("listen-port", 443, "port to listen on")
+	funnel       = flag.Bool("funnel", false, "enable funnel mode")
+	mountPath    = flag.String("mount-path", "/", "path to mount proxy on")
+	stateDir     = flag.String("state-dir", "/state", "directory to store state in")
+	controlURL   = flag.String("control-url", "", "control URL to use, leave empty for default")
+	printVersion = flag.Bool("version", false, "print version and exit")
+
+	version = "devel"
 )
 
 func main() {
 	flag.Parse()
 
-	if *version {
-		ver := "(devel)"
-		if info, ok := debug.ReadBuildInfo(); ok {
-			ver = info.Main.Version
-		}
-
-		fmt.Printf("%s %s\n", os.Args[0], ver)
+	if *printVersion {
+		fmt.Printf("%s %s\n", os.Args[0], version)
 		return
 	}
 
@@ -115,6 +111,8 @@ func main() {
 		ControlURL: *controlURL,
 	}
 	defer s.Close()
+
+	log.Printf("starting tsnet-server (%s)", version)
 
 	if *funnel {
 		log.Printf("funneling traffic to %s", proxyTarget)
