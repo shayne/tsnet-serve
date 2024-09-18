@@ -43,7 +43,7 @@ changelog:
 
 kos:
   - tags:
-      - "{{.Version}}"
+      - "v{{.Version}}"
       - latest
     bare: true
     preserve_import_paths: false
