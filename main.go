@@ -10,6 +10,8 @@ import (
 	"net/http/httputil"
 	"net/url"
 	"os"
+	"path/filepath"
+	"runtime/debug"
 	"strconv"
 	"strings"
 
@@ -34,7 +36,7 @@ func main() {
 	flag.Parse()
 
 	if *printVersion {
-		fmt.Printf("%s %s\n", os.Args[0], version)
+		fmt.Printf("%s %s\ntailscale %v\n", filepath.Base(os.Args[0]), version, tailscaleVersion())
 		return
 	}
 
@@ -232,4 +234,19 @@ func allNumeric(s string) bool {
 		}
 	}
 	return s != ""
+}
+
+func tailscaleVersion() string {
+	bi, ok := debug.ReadBuildInfo()
+	if !ok {
+		return "unknown"
+	}
+
+	for _, m := range bi.Deps {
+		if m.Path == "tailscale.com" {
+			return m.Version
+		}
+	}
+
+	return "unknown"
 }
