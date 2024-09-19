@@ -4,7 +4,7 @@ go 1.23
 
 toolchain go1.23.0
 
-require tailscale.com v1.74.0
+require tailscale.com v1.74.1
 
 require (
 	filippo.io/edwards25519 v1.1.0 // indirect
