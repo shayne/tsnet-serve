@@ -5,3 +5,5 @@ package = "go"
 package = "goreleaser"
 [[commands]]
 package = "ko"
+[[commands]]
+package = "golangci-lint"

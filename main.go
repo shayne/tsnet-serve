@@ -112,7 +112,11 @@ func main() {
 		Dir:        *stateDir,
 		ControlURL: *controlURL,
 	}
-	defer s.Close()
+	defer func() {
+		if err := s.Close(); err != nil {
+			log.Fatalf("failed to close server: %v", err)
+		}
+	}()
 
 	log.Printf("starting tsnet-server (%s)", version)
 
