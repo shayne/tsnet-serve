@@ -1,3 +1,7 @@
 # https://numtide.github.io/devshell
 [[commands]]
 package = "go"
+[[commands]]
+package = "goreleaser"
+[[commands]]
+package = "ko"
