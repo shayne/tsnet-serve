@@ -25,7 +25,7 @@ var (
 	listenPort   = flag.Int("listen-port", 443, "port to listen on")
 	funnel       = flag.Bool("funnel", false, "enable funnel mode")
 	mountPath    = flag.String("mount-path", "/", "path to mount proxy on")
-	stateDir     = flag.String("state-dir", "/state", "directory to store state in")
+	stateDir     = flag.String("state-dir", "state", "directory to store state in")
 	controlURL   = flag.String("control-url", "", "control URL to use, leave empty for default")
 	printVersion = flag.Bool("version", false, "print version and exit")
 
