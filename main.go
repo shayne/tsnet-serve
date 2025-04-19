@@ -157,10 +157,8 @@ func startFunnel(s *tsnet.Server, portStr string, proxyTarget *url.URL) error {
 
 	proxy := httputil.ReverseProxy{
 		Rewrite: func(r *httputil.ProxyRequest) {
+			r.SetXForwarded()
 			r.SetURL(proxyTarget)
-
-			// Strip the mount path from the Out URL.
-			r.Out.URL.Path = r.In.URL.Path[len(*mountPath):]
 		},
 		Transport: transport,
 	}
