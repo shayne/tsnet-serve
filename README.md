@@ -25,6 +25,8 @@ Pre-built binaries are available on the [releases page](https://github.com/shayn
 Container images are available on [GitHub Container Registry](https://ghcr.io/shayne/tsnet-serve)
 at `ghcr.io/shayne/tsnet-serve`.
 
+Also available on [Homebrew](https://formulae.brew.sh/formula/tsnet-serve).
+
 ## Build and run
 
 To build from source and run:
