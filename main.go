@@ -48,7 +48,6 @@ func main() {
 	}
 
 	if b := os.Getenv("TSNS_BACKEND"); b != "" {
-
 		*backend = b
 	}
 	if *backend == "" {
@@ -117,8 +116,6 @@ func main() {
 			log.Fatalf("failed to close server: %v", err)
 		}
 	}()
-
-	log.Printf("starting tsnet-server (%s)", version)
 
 	if *funnel {
 		log.Printf("funneling traffic to %s", proxyTarget)
