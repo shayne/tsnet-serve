@@ -17,6 +17,7 @@ import (
 	"runtime/debug"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/felixge/httpsnoop"
 	"tailscale.com/tsnet"
@@ -153,15 +154,22 @@ func main() {
 	server := &http.Server{
 		Handler: rp,
 	}
-	if err := server.Serve(ln); err != nil && err != http.ErrServerClosed {
-		log.Fatalf("failed to serve: %v", err)
-	}
 
-	ctx := context.Background()
-	signal.NotifyContext(ctx, os.Interrupt)
+	go func() {
+		if err := server.Serve(ln); err != nil && err != http.ErrServerClosed {
+			log.Fatalf("failed to serve: %v", err)
+		}
+	}()
+	log.Printf("proxying traffic to %s", proxyTarget)
+
+	ctx, cancel := signal.NotifyContext(context.Background(), os.Interrupt)
+	defer cancel()
 
 	// Wait for an interrupt signal to gracefully shut down the server.
 	<-ctx.Done()
+
+	ctx, cancel = context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
 	if err := server.Shutdown(ctx); err != nil {
 		log.Fatalf("failed to shut down server: %v", err)
 	}
