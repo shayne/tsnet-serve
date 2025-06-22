@@ -1,6 +1,6 @@
 # tsnet-serve
 
-[![CI](https://github.com/shayne/tsnet-serve/actions/workflows/ci.yml/badge.svg)][gha-wf-ci]
+[![CI](https://github.com/shayne/tsnet-serve/actions/workflows/ci.yml/badge.svg)](https://github.com/shayne/tsnet-serve/actions/workflows/ci.yml)
 
 It's like `tailscale serve` but a standalone app that lives on your tailnet.
 
@@ -62,7 +62,7 @@ tsnet-serve \
 
 ## Releases
 
-[![Release](https://github.com/shayne/tsnet-serve/actions/workflows/release.yml/badge.svg)][gha-wf-release]
+[![Release](https://github.com/shayne/tsnet-serve/actions/workflows/release.yml/badge.svg)](https://github.com/shayne/tsnet-serve/actions/workflows/release.yml)
 
 Pre-built binaries are available on the [releases page][releases].
 
@@ -117,9 +117,6 @@ if you have any improvements or bug fixes to suggest.
 
 Licensed under the [MIT License](LICENSE).
 
-
-[gha-wf-ci](https://github.com/shayne/tsnet-serve/actions/workflows/ci.yml)
-[gha-wf-release](https://github.com/shayne/tsnet-serve/actions/workflows/release.yml)
 [tsfunnel](https://tailscale.com/kb/1223/funnel/)
 [releases](https://github.com/shayne/tsnet-serve/releases)]
 [ghcr-tsnet-serve](https://ghcr.io/shayne/tsnet-serve)
