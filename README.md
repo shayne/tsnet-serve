@@ -51,7 +51,6 @@ tsnet-serve \
   -[hostname <hostname=tsnet-serve>] \
   -backend <backend> \
   [-listen-port <port=443>]
-  [-serve-tls <true>]
   [-funnel] \
   [-allowed-paths <regexp>] \
   [-denied-paths <regexp>] \
@@ -118,7 +117,7 @@ if you have any improvements or bug fixes to suggest.
 Licensed under the [MIT License](LICENSE).
 
 [tsfunnel](https://tailscale.com/kb/1223/funnel/)
-[releases](https://github.com/shayne/tsnet-serve/releases)]
+[releases](https://github.com/shayne/tsnet-serve/releases)
 [ghcr-tsnet-serve](https://ghcr.io/shayne/tsnet-serve)
 [brew-tsnet-serve](https://formulae.brew.sh/formula/tsnet-serve)
 [tsauthkey](https://tailscale.com/kb/1085/auth-keys/)
