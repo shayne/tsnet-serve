@@ -4,7 +4,10 @@ go 1.24.0
 
 toolchain go1.24.4
 
-require tailscale.com v1.84.1
+require (
+	github.com/felixge/httpsnoop v1.0.4
+	tailscale.com v1.84.1
+)
 
 require (
 	filippo.io/edwards25519 v1.1.0 // indirect
