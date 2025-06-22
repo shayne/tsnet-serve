@@ -6,7 +6,7 @@ toolchain go1.24.4
 
 require (
 	github.com/felixge/httpsnoop v1.0.4
-	tailscale.com v1.84.1
+	tailscale.com v1.84.2
 )
 
 require (
