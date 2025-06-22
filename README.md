@@ -13,7 +13,7 @@ runs the same reverse proxy as `tailscale serve`.
 
 Open a web browser and point it to `https://machine.your-tcd.ts.net`.
 
-Expose your service to the internet via [Tailscale Funnel][tsfunnel]
+Expose your service to the internet via [Tailscale Funnel](https://tailscale.com/kb/1223/funnel/)
 using the `-funnel` flag.
 
 ## Usage
@@ -28,8 +28,8 @@ Set the backend URL using the `-backend` flag or the `TSNS_BACKEND` environment 
 You can listen on any port on your hostname by specifying the `-listen-port` flag
 or by setting the `TSNS_LISTEN_PORT` environment variable.
 
-When [Tailscale Funnel][tsfunnel] is enabled using `-funnel` or the `TSNS_FUNNEL` environment variable,
-only ports 443, 8443 and 10000 are allowed.
+When [Tailscale Funnel](https://tailscale.com/kb/1223/funnel/) is enabled using 
+`-funnel` or the `TSNS_FUNNEL` environment variable, only ports 443, 8443 and 10000 are allowed.
 
 You can restrict access to specific paths using the `-allowed-paths` and `-denied-paths` flags.
 When using these flags, you can specify regular expressions to match the paths.
@@ -63,12 +63,12 @@ tsnet-serve \
 
 [![Release](https://github.com/shayne/tsnet-serve/actions/workflows/release.yml/badge.svg)](https://github.com/shayne/tsnet-serve/actions/workflows/release.yml)
 
-Pre-built binaries are available on the [releases page][releases].
+Pre-built binaries are available on the [releases page](https://github.com/shayne/tsnet-serve/releases).
 
-Container images are available on [GitHub Container Registry][ghcr-tsnet-serve]
+Container images are available on [GitHub Container Registry](https://ghcr.io/shayne/tsnet-serve)
 at `ghcr.io/shayne/tsnet-serve`.
 
-Also available on [Homebrew][brew-tsnet-serve].
+Also available on [Homebrew](https://formulae.brew.sh/formula/tsnet-serve).
 
 ## Build and run
 
@@ -84,7 +84,7 @@ docker run $(ko build --local .)
 
 ## Container Images
 
-OCI Container images are available on [GitHub Container Registry][ghcr-tsnet-serve].
+OCI Container images are available on [GitHub Container Registry](https://ghcr.io/shayne/tsnet-serve).
 You can run the container with Podman or Docker.
 
 ```shell
@@ -102,7 +102,7 @@ podman run -d \
     ghcr.io/shayne/tsnet-serve:latest
 ```
 
-Initial registration requires an [auth key][tsauthkey])
+Initial registration requires an [auth key](https://tailscale.com/kb/1085/auth-keys/)
 set as the `TS_AUTHKEY` env var. If an auth key is not provided,
 the app will print a log with a link to create one.
 
@@ -115,9 +115,3 @@ if you have any improvements or bug fixes to suggest.
 ## License
 
 Licensed under the [MIT License](LICENSE).
-
-[tsfunnel](https://tailscale.com/kb/1223/funnel/)
-[releases](https://github.com/shayne/tsnet-serve/releases)
-[ghcr-tsnet-serve](https://ghcr.io/shayne/tsnet-serve)
-[brew-tsnet-serve](https://formulae.brew.sh/formula/tsnet-serve)
-[tsauthkey](https://tailscale.com/kb/1085/auth-keys/)
