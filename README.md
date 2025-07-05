@@ -1,5 +1,10 @@
 # tsnet-serve
 
+## [Winding Down](https://github.com/shayne/tsnet-serve/issues/10)
+
+We've decided to wind down development of `tsnet-serve`.
+Use [tsnsrv](https://github.com/boinkor-net/tsnsrv) instead.
+
 [![CI](https://github.com/shayne/tsnet-serve/actions/workflows/ci.yml/badge.svg)](https://github.com/shayne/tsnet-serve/actions/workflows/ci.yml)
 
 It's like `tailscale serve` but a standalone app that lives on your tailnet.
